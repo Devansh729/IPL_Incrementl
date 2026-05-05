@@ -1,0 +1,149 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+
+  <!-- ================= ADMIN VIEW ================= -->
+  <ng-container *ngIf="role === 'ADMIN'">
+    <h2>Welcome ADMIN</h2>
+
+    <!-- Teams -->
+    <section class="card">
+      <h3>Team List</h3>
+      <table class="table" *ngIf="teams.length">
+        <tr>
+          <th>ID</th><th>Name</th><th>Location</th><th>Owner</th><th>Actions</th>
+        </tr>
+        <tr *ngFor="let team of teams">
+          <td>{{ team.teamId }}</td>
+          <td>{{ team.teamName }}</td>
+          <td>{{ team.location }}</td>
+          <td>{{ team.ownerName }}</td>
+          <td>
+            <button (click)="editTeam(team.teamId)">Edit</button>
+            <button (click)="deleteTeam(team.teamId)">Delete</button>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Votes -->
+    <section class="card">
+      <h3>Votes</h3>
+      <table class="table" *ngIf="voteArray.length">
+        <tr>
+          <th>Category</th><th>Vote</th><th>Email</th>
+        </tr>
+        <tr *ngFor="let vote of voteArray">
+          <td>{{ vote.category }}</td>
+          <td>{{ vote.cricketer ? vote.cricketer.cricketerName : vote.team.teamName }}</td>
+          <td>{{ vote.email }}</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- All Tickets -->
+    <section class="card">
+      <h3>All Tickets Booked</h3>
+      <table class="table" *ngIf="allTicketsBooked.length">
+        <tr>
+          <th>ID</th><th>Match</th><th>Tickets</th>
+        </tr>
+        <tr *ngFor="let t of allTicketsBooked">
+          <td>{{ t.bookingId }}</td>
+          <td>{{ t.match.firstTeam.teamName }} vs {{ t.match.secondTeam.teamName }}</td>
+          <td>{{ t.numberOfTickets }}</td>
+        </tr>
+      </table>
+    </section>
+  </ng-container>
+
+  <!-- ================= USER VIEW ================= -->
+  <ng-container *ngIf="role === 'USER'">
+
+    <!-- Teams -->
+    <section class="card">
+      <h3>Teams</h3>
+      <table class="table" *ngIf="teams.length">
+        <tr>
+          <th>ID</th><th>Name</th><th>Location</th><th>Owner</th>
+        </tr>
+        <tr *ngFor="let team of teams">
+          <td>{{ team.teamId }}</td>
+          <td>{{ team.teamName }}</td>
+          <td>{{ team.location }}</td>
+          <td>{{ team.ownerName }}</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Cricketers -->
+    <section class="card">
+      <h3>Cricketers</h3>
+      <table class="table" *ngIf="cricketers.length">
+        <tr>
+          <th>ID</th><th>Name</th><th>Age</th><th>Team</th><th>Role</th>
+        </tr>
+        <tr *ngFor="let c of cricketers">
+          <td>{{ c.cricketerId }}</td>
+          <td>{{ c.cricketerName }}</td>
+          <td>{{ c.age }}</td>
+          <td>{{ c.team.teamName }}</td>
+          <td>{{ c.role }}</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Matches -->
+    <section class="card">
+      <h3>Matches</h3>
+      <table class="table" *ngIf="matches.length">
+        <tr>
+          <th>ID</th><th>Date</th><th>Venue</th><th>Teams</th><th>Status</th>
+        </tr>
+        <tr *ngFor="let m of matches">
+          <td>{{ m.matchId }}</td>
+          <td>{{ m.matchDate | date }}</td>
+          <td>{{ m.venue }}</td>
+          <td>{{ m.firstTeam.teamName }} vs {{ m.secondTeam.teamName }}</td>
+          <td>{{ m.status }}</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Votes -->
+    <section class="card">
+      <h3>Votes</h3>
+      <table class="table" *ngIf="voteList.length">
+        <tr>
+          <th>Category</th><th>Vote</th>
+        </tr>
+        <tr *ngFor="let v of voteList">
+          <td>{{ v.category }}</td>
+          <td>{{ v.cricketer ? v.cricketer.cricketerName : v.team.teamName }}</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Tickets -->
+    <section class="card">
+      <h3>My Tickets</h3>
+      <form [formGroup]="emailForm" (ngSubmit)="onSubmitEmail()">
+        <input type="email" formControlName="email" placeholder="Enter email">
+        <button type="submit" [disabled]="emailForm.invalid">Search</button>
+      </form>
+
+      <table class="table" *ngIf="ticketsBooked.length">
+        <tr>
+          <th>ID</th><th>Match</th><th>Date</th><th>Tickets</th>
+        </tr>
+        <tr *ngFor="let t of ticketsBooked">
+          <td>{{ t.bookingId }}</td>
+          <td>{{ t.match.firstTeam.teamName }} vs {{ t.match.secondTeam.teamName }}</td>
+          <td>{{ t.match.matchDate | date }}</td>
+          <td>{{ t.numberOfTickets }}</td>
+        </tr>
+      </table>
+    </section>
+
+  </ng-container>
+</div>
