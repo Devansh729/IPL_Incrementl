@@ -1,4 +1,3 @@
-
 import { Component } from "@angular/core";
 import { Team } from "../../types/Team";
 @Component({

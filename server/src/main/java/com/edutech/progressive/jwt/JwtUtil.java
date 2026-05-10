@@ -1,4 +1,3 @@
-
 package com.edutech.progressive.jwt;
  
 import com.edutech.progressive.entity.User;
